@@ -1,0 +1,3 @@
+# Pasta config - Acesso negado
+Order allow,deny
+Deny from all

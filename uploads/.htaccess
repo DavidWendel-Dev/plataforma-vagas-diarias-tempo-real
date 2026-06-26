@@ -1,0 +1,14 @@
+# Pasta uploads - Bloquear execução de PHP
+<FilesMatch "\.php$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Permitir apenas imagens e documentos
+<FilesMatch "\.(?i)(jpg|jpeg|png|gif|webp|svg|pdf|doc|docx|xls|xlsx|txt)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
+# Bloquear listagem
+Options -Indexes
