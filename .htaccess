@@ -1,0 +1,102 @@
+# ===========================================
+# Proteção do Sistema - RapidJobs
+# ===========================================
+
+# Bloquear listagem de diretórios
+Options -Indexes
+Options +FollowSymLinks
+
+# Ativar RewriteEngine
+RewriteEngine On
+RewriteBase /rapidjobs/
+
+# ===========================================
+# Proteção de Arquivos Sensíveis
+# ===========================================
+
+# Bloquear .env
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Bloquear arquivos de configuração
+<Files config.php>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Bloquear arquivos de sistema
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Bloquear extensões sensíveis
+<FilesMatch "\.(env|lock|log|md|sql|yaml|yml|git|gitignore)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Permitir manifest.json (PWA) - sem cache
+<Files "manifest.json">
+    Order allow,deny
+    Allow from all
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+</Files>
+
+# Permite sw.js sem cache
+<Files "sw.js">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+</Files>
+
+# ===========================================
+# Headers de Segurança
+# ===========================================
+
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    # MIME type correto para PWA manifest
+    AddType application/manifest+json .json
+    AddType application/manifest+json .webmanifest
+    AddType text/javascript .js
+</IfModule>
+
+# ===========================================
+# Compressão GZIP
+# ===========================================
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json application/xml
+</IfModule>
+
+# ===========================================
+# Cache de Arquivos Estáticos
+# ===========================================
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# ===========================================
+# Páginas de Erro
+# ===========================================
+
+ErrorDocument 403 /rapidjobs/403.php
+ErrorDocument 404 /rapidjobs/404.php
+ErrorDocument 500 /rapidjobs/500.php

@@ -1,0 +1,30 @@
+# Environment
+.env
+
+# Dependencies / packages
+vendor/
+node_modules/
+
+# Runtime / logs / cache
+*.log
+logs/
+tmp/
+cache/
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Uploads (keep only protection placeholders)
+uploads/*
+!uploads/.htaccess
+!uploads/index.html
+!uploads/prestadores/
+uploads/prestadores/*
+!uploads/prestadores/index.html
+!uploads/empresas/
+uploads/empresas/*
+!uploads/empresas/index.html
